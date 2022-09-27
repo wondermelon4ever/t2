@@ -1,0 +1,607 @@
+openapi: 3.0.1
+info:
+  title: Emarket - Marketing HTTP API
+  description: The Marketing Service HTTP API
+  version: v1
+servers:
+  - url: /marketing-api
+paths:
+  /api/v1/campaigns:
+    get:
+      tags:
+        - campaigns
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CampaignDTO'
+                nullable: true
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CampaignDTO'
+                nullable: true
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CampaignDTO'
+                nullable: true
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - accessToken:
+            - secret
+    post:
+      tags:
+        - campaigns
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/CampaignDTO'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignDTO'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CampaignDTO'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CampaignDTO'
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - accessToken:
+            - secret
+  /api/v1/campaigns/{id}:
+    get:
+      tags:
+        - campaigns
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CampaignDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CampaignDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      security:
+        - accessToken:
+            - secret
+    put:
+      tags:
+        - campaigns
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/CampaignDTO'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignDTO'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CampaignDTO'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CampaignDTO'
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      security:
+        - accessToken:
+            - secret
+    delete:
+      tags:
+        - campaigns
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      security:
+        - accessToken:
+            - secret
+  /api/v1/campaigns/user:
+    get:
+      tags:
+        - campaigns
+      parameters:
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: pageIndex
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 0
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CampaignDTOPaginatedItemsViewModel'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignDTOPaginatedItemsViewModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CampaignDTOPaginatedItemsViewModel'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      security:
+        - accessToken:
+            - secret
+  /api/v1/campaigns/{campaignId}/locations/{userLocationRuleId}:
+    get:
+      tags:
+        - Locations
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: userLocationRuleId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserLocationRuleDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLocationRuleDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserLocationRuleDTO'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      security:
+        - accessToken:
+            - secret
+    delete:
+      tags:
+        - Locations
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: userLocationRuleId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      security:
+        - accessToken:
+            - secret
+  /api/v1/campaigns/{campaignId}/locations:
+    get:
+      tags:
+        - Locations
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserLocationRuleDTO'
+                nullable: true
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserLocationRuleDTO'
+                nullable: true
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserLocationRuleDTO'
+                nullable: true
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      security:
+        - accessToken:
+            - secret
+    post:
+      tags:
+        - Locations
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/UserLocationRuleDTO'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLocationRuleDTO'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UserLocationRuleDTO'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UserLocationRuleDTO'
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      security:
+        - accessToken:
+            - secret
+  /api/v1/campaigns/{campaignId}/pic:
+    get:
+      tags:
+        - Pic
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    CampaignDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        From:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        pictureUri:
+          type: string
+          nullable: true
+        detailsUri:
+          type: string
+          nullable: true
+      nullable: true
+    Object:
+      type: object
+      nullable: true
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+        extensions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Object'
+          nullable: true
+          readOnly: true
+      additionalProperties:
+        $ref: '#/components/schemas/Object'
+      nullable: true
+    CampaignDTOPaginatedItemsViewModel:
+      type: object
+      properties:
+        pageIndex:
+          type: integer
+          format: int32
+          readOnly: true
+        pageSize:
+          type: integer
+          format: int32
+          readOnly: true
+        count:
+          type: integer
+          format: int64
+          readOnly: true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CampaignDTO'
+          nullable: true
+          readOnly: true
+      nullable: true
+    UserLocationRuleDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        locationId:
+          type: integer
+          format: int32
+        description:
+          type: string
+          nullable: true
+      nullable: true
+  securitySchemes:
+    accessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

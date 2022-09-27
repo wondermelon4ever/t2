@@ -1,0 +1,106 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id "org.openapi.generator" version "5.3.0"
+}
+
+group = 'com.samsung.sds'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	// maven {
+    //     url "http://70.121.224.52:8081/nexus/content/repositories/central2/"
+	// 	allowInsecureProtocol = true
+    // }
+
+	mavenCentral()
+}
+
+ext {
+	// set('springCloudVersion', "2021.0.0")
+}
+
+dependencies {		
+	// Related to swagger api and openapi
+	// compileOnly 'javax.validation:validation-api:1.1.0.Final'
+	// implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+	// implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'		
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+	// Related to Mybatis
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	// Related to MariaDB
+	implementation 'org.mariadb.jdbc:mariadb-java-client:2.6.1'
+	// Utility to convert vo to vo with similar data
+	// 	- lombok	
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	testCompileOnly 'org.projectlombok:lombok:1.18.22'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+	// 	- mapstruct
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+	// Spring Boot Admin
+	implementation 'de.codecentric:spring-boot-admin-starter-client'
+	// Actuator
+	// implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.4.0'
+	implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: '2.4.0'
+
+	// OpenTracing and Jaeger
+	// compile "io.opentracing:opentracing-api:0.32.0"
+    // compile "io.opentracing:opentracing-util"
+    // compile "io.opentracing.contrib:opentracing-spring-jaeger-cloud-starter"	
+	implementation group: 'io.opentracing', name: 'opentracing-api', version: '0.33.0'
+	implementation group: 'io.opentracing', name: 'opentracing-util', version: '0.33.0'
+	implementation group: 'io.opentracing.contrib', name: 'opentracing-spring-jaeger-cloud-starter', version: '2.0.3'
+
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.keycloak:keycloak-spring-boot-starter:11.0.2'
+    // implementation group: 'org.keycloak.bom', name: 'keycloak-bom-parent', version: '11.0.2', ext: 'pom'
+	implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.1'
+
+	// Related to Spring Settings
+	// implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'	
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'	
+}
+
+dependencyManagement {
+	imports {
+		// mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+openApiGenerate {    
+	generatorName = "spring"
+	inputSpec = "$rootDir/design/location-api-simple.yaml".toString()    
+	// outputDir = "$buildDir/generated".toString()
+	outputDir = "$rootDir".toString() 
+	apiPackage = "com.samsung.sds.demo.api"
+    invokerPackage = "com.samsung.sds.demo.api.invoker"
+    modelPackage = "com.samsung.sds.demo.api.model"
+	configOptions = [
+        dateLibrary: "java8",
+		java8: "false",
+		generateSupportingFiles: "false",
+		// delegatePattern: "true",
+		// library: "spring-cloud",
+		// library: "spring-boot",
+		hideGenerationTimestamp: "true",
+		useTags: "true",
+		interfaceOnly: "true",
+		openApiNullable: "false"
+    ]	
+}
